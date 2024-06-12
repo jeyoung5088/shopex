@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App'; // App.js에서 App 함수를 로딩
+// App 대신 Hello를 임포트
+// import App from './App'
+import Hello from './components/Hello'
 import reportWebVitals from './reportWebVitals';
 
 // ReactDOM.createRoot의 인수에서는 root라는 ID를 가진 요소를 지정
@@ -14,7 +16,8 @@ root.render(
   // 부적절한 코드를 감지하기 위한 헬퍼
   <React.StrictMode>
     {/* App은 src/App.tsx로부터 임포트한 것을 사용 */}
-    <App />
+    {/* App에서 Hello로 치환 */}
+    <Hello />
   </React.StrictMode>
 );
 
