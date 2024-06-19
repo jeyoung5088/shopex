@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 // App 대신 Hello를 임포트
 // import App from './App'
-import Counter from './components/Counter'
+import Parent from './components/Parent'
 import Hello from './components/Hello'
 import reportWebVitals from './reportWebVitals';
 
@@ -18,7 +18,7 @@ root.render(
   <React.StrictMode>
     {/* App은 src/App.tsx로부터 임포트한 것을 사용 */}
     {/* App에서 Hello로 치환 */}
-    <Counter initialValue={0} />
+    <Parent  />
   </React.StrictMode>
 );
 
