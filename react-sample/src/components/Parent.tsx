@@ -1,58 +1,32 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useRef, useImperativeHandle } from 'react'
 
-type ButtonProps = {
-    onClick: () => void
-}
+const Child = React.forwardRef((props, ref) => {
+    const [message, setMessage] = useState<string | null> (null)
 
-const DecrementButton = (props: ButtonProps) => {
-    const {onClick} = props
-
-    console.log('DecrementButton이 다시 그려졌습니다.')
-
-    return <button onClick = {onClick}>Decrement</button>
-}
-
-// Increment는 메모제이션한 함수 컴포넌트로 버튼을 표시
-const IncrementButton = React.memo((props: ButtonProps) => {
-    const {onClick} = props
-    console.log('IncrementButton이 다시 그려졌습니다.')
-
-    return <button onClick = {onClick}>Increment</button>
+    // useImperativalHandle에서 부모의 ref로부터 참조할 수 있는 값을 지정
+    useImperativeHandle(ref, () => ({
+        showMessage:() => {
+            const date = new Date()
+            const message = `Hello, it's ${date.toLocaleString()} now`
+            setMessage(message)
+        }
+    }))
+    return <div>{message !== null ? <p>{message}</p> : null}</div>
 })
 
-// DoubleButton은 메모제이션한 함수 컴포넌트로 버튼을 표시
-const DoubleButton = React.memo((props: ButtonProps) => {
-    const {onClick} = props
-    
-    console.log('DoubleButton이 다시 그려졌습니다.')
-
-    return <button onClick={onClick}>Double</button>
-})
-
-export const Parent = () => {
-    const [count, setCount] = useState(0)
-
-    const decrement = () => {
-        setCount((c) => c-1)
+const Parent = () => {
+    const childRef = useRef<{ showMessage: () => void }>(null)
+    const onClick = () => {
+        if (childRef.current !== null) {
+            // 자식의 useImperativalHandle에서 지정한 값을 참조
+            childRef.current.showMessage
+        }
     }
-    const increment = () => {
-        setCount((c) => c+1)
-    }
-    // useCallback을 사용해 함수를 메모제이션
-    const double = useCallback(() => {
-        setCount((c) => c*2)
-        // 두 번쨰 인수는 빈 배열이므로, useCallback은 항상 같은 함수를 반환
-    }, [])
 
     return (
         <div>
-            <p>Count: {count}</p>
-            {/* 컴포넌트에 함수를 전달 */}
-            <DecrementButton onClick={decrement} />
-            {/* 메모제이션된 컴포넌트에 함수를 전달 */}
-            <IncrementButton onClick={increment} />
-            {/* 메모제이션된 컴포넌트에 메모제이션된 함수를 전달 */}
-            <DoubleButton onClick={double} />
+            <button onClick={onClick}>Show Message</button>
+            <Child ref = {childRef}/>
         </div>
     )
 }

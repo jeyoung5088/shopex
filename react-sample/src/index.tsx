@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 // App 대신 Hello를 임포트
 // import App from './App'
-import Clock from './components/Clock'
+import Input from './components/CustomInput'
 import Hello from './components/Hello'
 import reportWebVitals from './reportWebVitals';
 
