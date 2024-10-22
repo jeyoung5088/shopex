@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { StyledButton } from '../components/StyledButton'
-// 새롭게 action을 임포트
-import { action } from '@storybook/addon-actions';
+import { linkTo } from '@storybook/addon-links';
 
 // 파일 안의 스토리 설정(메타데이터 객체)
 export default {
@@ -10,42 +8,33 @@ export default {
     title: 'StyledButton',
     // 사용하는 컴포넌트
     component: StyledButton,
-    // onCLick이 호출됐을 때 clicked라는 액션을 출력한다. 
-    argTypes: {onClick: {action: 'clicked'}},
+    // onCLick이 호출됐을 때 clicked라는 액션을 출력한다.
 } as Meta<typeof StyledButton>;
 
-type Story = StoryObj<typeof StyledButton>;
-const incrementAction = action('increment');
 
-const PrimaryButton = () => {
-    const [count, setCount] = useState(0);
-    const onClick = (e: React.MouseEvent) => {
-        // 현재 카운트를 전달하고 Action을 호출
-        incrementAction(e, count);
-        setCount((c) => c+1);
+// 기본 props 설정
+export const Primary: Meta = {
+    // 클릭하면 StyledButton/Success의 스토리로 이동
+    args: {
+        variant: 'primary',
+        children: 'Primary',
+        onClick: linkTo('StyledButton', 'Success')
     }
+    
+}
 
-    return (
-        <StyledButton variant = "primary" onClick = {onClick}>
-            Count: {count}
-        </StyledButton>
-    );
-};
-
-export const Primary: Story = {
-    render: () => <PrimaryButton />,
-};
-
-export const Success: Story = {
+export const Success: Meta = {
     args: {
         variant: 'success',
         children: 'Success',
-    },
-};
+        onClick: linkTo('StyledButton', 'Transparent')
+    }
+}
 
-export const Transparent: Story = {
+export const Transparent: Meta = {
     args: {
         variant: 'transparent',
         children: 'Transparent',
-    },
-};
+        onClick: linkTo('StyledButton', 'Primary')
+    }
+}
