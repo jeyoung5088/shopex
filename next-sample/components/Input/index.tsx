@@ -14,13 +14,13 @@ export const Input = (props: InputProps) => {
     }
 
     const resetInputField = () => {
+        console.log('Reset button clicked')
         setText('')
     }
 
     return (
         <div>
-            <label htmlFor={props.id}>{label}</label>
-            <input {...rest} type="text" onChange={onInputChange} />
+            <input {...rest} type="text" onChange={onInputChange} aria-label={label}/>
             <button onClick={resetInputField}>Reset</button>
         </div>
     )
